@@ -23,9 +23,10 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/health", handleHealth)
 
+	fmt.Println("starting server")
 	err := http.ListenAndServe(":8000", nil)
 	if errors.Is(err, http.ErrServerClosed) {
-		fmt.Printf("server closed\n")
+		fmt.Println("server closed")
 	} else if err != nil {
 		fmt.Printf("error starting server: %s\n", err)
 		os.Exit(1)
