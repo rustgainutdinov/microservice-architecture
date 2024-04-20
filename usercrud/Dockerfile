@@ -1,7 +1,8 @@
 FROM ubuntu
 
-EXPOSE 8000
+EXPOSE 80
 
 COPY ["bin", "/app/bin"]
+COPY ["data", "/app/data"]
 
 ENTRYPOINT [ "/app/bin/main" ]

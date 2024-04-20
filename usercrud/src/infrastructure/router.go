@@ -3,14 +3,15 @@ package infrastructure
 import (
 	"net/http"
 	controllers "usercrud/src/interfaces/api"
+	"usercrud/src/interfaces/database"
 
 	"github.com/labstack/echo"
 )
 
-func Init() {
+func Init(sqlHandler database.SqlHandler) {
 	// Echo instance
 	e := echo.New()
-	userController := controllers.NewUserController(NewSqlHandler())
+	userController := controllers.NewUserController(sqlHandler)
 
 	e.GET("/users", func(c echo.Context) error {
 		users := userController.GetUser()
@@ -30,5 +31,5 @@ func Init() {
 	})
 
 	// Start server
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start(":80"))
 }

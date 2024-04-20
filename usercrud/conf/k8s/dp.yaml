@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: app-kuber
 spec:
-  replicas: 2
+  replicas: 1
   minReadySeconds: 10
   strategy:
     rollingUpdate:
@@ -20,6 +20,7 @@ spec:
     spec:
       containers:
         - name: kuber-app
-          image: rustamgainutdinov/microservice-architecture-usercrud:master
+          image: usercrud:dev
+          imagePullPolicy: Never
           ports:
-            - containerPort: 8000
+            - containerPort: 80

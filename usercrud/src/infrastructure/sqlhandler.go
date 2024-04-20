@@ -3,16 +3,14 @@ package infrastructure
 import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-
-	"usercrud/src/interfaces/database"
 )
 
 type SqlHandler struct {
 	db *gorm.DB
 }
 
-func NewSqlHandler() database.SqlHandler {
-	dsn := "root:password@tcp(127.0.0.1:3306)/go_sample?charset=utf8mb4&parseTime=True&loc=Local"
+func NewSqlHandler() *SqlHandler {
+	dsn := "root:root@tcp(mysql.usercrud.svc.cluster.local:3306)/my_database"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err.Error)
@@ -20,6 +18,10 @@ func NewSqlHandler() database.SqlHandler {
 	sqlHandler := new(SqlHandler)
 	sqlHandler.db = db
 	return sqlHandler
+}
+
+func (handler *SqlHandler) Execute(query string) {
+	handler.db.Exec(query)
 }
 
 func (handler *SqlHandler) Create(obj interface{}) {
