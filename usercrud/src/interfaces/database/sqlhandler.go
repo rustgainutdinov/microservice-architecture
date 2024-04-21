@@ -1,7 +1,8 @@
 package database
 
 type SqlHandler interface {
-	Create(object interface{})
-	FindAll(object interface{})
-	DeleteById(object interface{}, id string)
+	FindAll(object interface{}) error
+	FindById(obj interface{}, id uint) error
+	Save(object interface{}) error
+	DeleteById(object interface{}, id string) error
 }

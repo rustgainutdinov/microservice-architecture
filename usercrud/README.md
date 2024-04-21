@@ -15,9 +15,15 @@ mysql -h mysql.usercrud.svc.cluster.local -uroot -p"$MYSQL_ROOT_PASSWORD"
 
 ## Local dev
 ```
-kind create cluster
+make
+eval $(minikube docker-env)
 docker build -t usercrud:dev .
+
+
+
+kind create cluster
 kind load docker-image usercrud:dev
+minikube image load usercrud:dev
 ```
 
 

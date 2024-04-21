@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"net/http"
 	controllers "usercrud/src/interfaces/api"
 	"usercrud/src/interfaces/database"
 
@@ -14,20 +13,21 @@ func Init(sqlHandler database.SqlHandler) {
 	userController := controllers.NewUserController(sqlHandler)
 
 	e.GET("/users", func(c echo.Context) error {
-		users := userController.GetUser()
-		c.Bind(&users)
-		return c.JSON(http.StatusOK, users)
+		return userController.GetUser(c)
 	})
 
 	e.POST("/users", func(c echo.Context) error {
-		userController.Create(c)
-		return c.String(http.StatusOK, "created")
+		return userController.Create(c)
 	})
 
 	e.DELETE("/users/:id", func(c echo.Context) error {
 		id := c.Param("id")
-		userController.Delete(id)
-		return c.String(http.StatusOK, "deleted")
+		return userController.Delete(c, id)
+	})
+
+	e.PUT("/users/:id", func(c echo.Context) error {
+		id := c.Param("id")
+		return userController.Update(c, id)
 	})
 
 	// Start server

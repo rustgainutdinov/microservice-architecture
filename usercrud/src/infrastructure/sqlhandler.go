@@ -11,7 +11,7 @@ type SqlHandler struct {
 
 func NewSqlHandler() *SqlHandler {
 	dsn := "root:root@tcp(mysql.usercrud.svc.cluster.local:3306)/my_database"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{TranslateError: true})
 	if err != nil {
 		panic(err.Error)
 	}
@@ -20,18 +20,22 @@ func NewSqlHandler() *SqlHandler {
 	return sqlHandler
 }
 
-func (handler *SqlHandler) Execute(query string) {
-	handler.db.Exec(query)
+func (handler *SqlHandler) FindAll(obj interface{}) error {
+	return handler.db.Find(obj).Error
 }
 
-func (handler *SqlHandler) Create(obj interface{}) {
-	handler.db.Create(obj)
+func (handler *SqlHandler) FindById(obj interface{}, id uint) error {
+	return handler.db.First(obj, id).Error
 }
 
-func (handler *SqlHandler) FindAll(obj interface{}) {
-	handler.db.Find(obj)
+func (handler *SqlHandler) Save(obj interface{}) error {
+	return handler.db.Save(obj).Error
 }
 
-func (handler *SqlHandler) DeleteById(obj interface{}, id string) {
-	handler.db.Delete(obj, id)
+func (handler *SqlHandler) DeleteById(obj interface{}, id string) error {
+	return handler.db.Delete(obj, id).Error
+}
+
+func (handler *SqlHandler) Migrate(obj interface{}) error {
+	return handler.db.AutoMigrate(obj)
 }
