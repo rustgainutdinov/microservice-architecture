@@ -24,3 +24,29 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 80
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: usercrudsecret
+                  key: dbhost
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: usercrudsecret
+                  key: dbport
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: usercrudsecret
+                  key: dbname
+            - name: DB_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: usercrudsecret
+                  key: dbusername
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: usercrudsecret
+                  key: dbpassword

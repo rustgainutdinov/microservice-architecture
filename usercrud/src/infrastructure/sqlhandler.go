@@ -1,6 +1,7 @@
 package infrastructure
 
 import (
+	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -9,8 +10,8 @@ type SqlHandler struct {
 	db *gorm.DB
 }
 
-func NewSqlHandler() *SqlHandler {
-	dsn := "root:root@tcp(mysql.usercrud.svc.cluster.local:3306)/my_database"
+func NewSqlHandler(DBHost string, DBPort int, DBName string, DBUserName string, DBPass string) *SqlHandler {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", DBUserName, DBPass, DBHost, DBPort, DBName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{TranslateError: true})
 	if err != nil {
 		panic(err.Error)

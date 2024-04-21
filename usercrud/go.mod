@@ -3,6 +3,7 @@ module usercrud
 go 1.20
 
 require (
+	github.com/caarlos0/env/v11 v11.0.0
 	github.com/labstack/echo v3.3.10+incompatible
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/gorm v1.25.7
